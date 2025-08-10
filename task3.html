@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Page</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Image Carousel Styles */
+        .carousel {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .carousel img {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Responsive Design (Media Queries) */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .carousel img {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Responsive and Interactive Webpage</h1>
+
+    <!-- Responsive Layout Container -->
+    <div class="container">
+
+        <!-- Image Carousel Section -->
+        <div class="carousel">
+            <h2>Image Carousel</h2>
+            <img id="carouselImage" src="https://via.placeholder.com/500x300/ff7f7f/333333?text=Image+1" alt="Carousel Image">
+            <br>
+            <button onclick="prevImage()">Previous</button>
+            <button onclick="nextImage()">Next</button>
+        </div>
+
+        <!-- Joke Fetching Section -->
+        <div>
+            <h2>Random Joke</h2>
+            <p id="joke">Click the button to get a joke!</p>
+            <button onclick="getJoke()">Get Joke</button>
+        </div>
+
+    </div>
+
+    <script>
+        // Image Carousel Logic
+        const images = [
+            'https://via.placeholder.com/500x300/ff7f7f/333333?text=Image+1',
+            'https://via.placeholder.com/500x300/7f7fff/333333?text=Image+2',
+            'https://via.placeholder.com/500x300/7fff7f/333333?text=Image+3'
+        ];
+        let currentIndex = 0;
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById("carouselImage").src = images[currentIndex];
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById("carouselImage").src = images[currentIndex];
+        }
+
+        // Fetch Joke from API
+        function getJoke() {
+            fetch('https://official-joke-api.appspot.com/random_joke')
+                .then(response => response.json())
+                .then(data => {
+                    const jokeElement = document.getElementById("joke");
+                    jokeElement.innerHTML = `${data.setup} <br> ${data.punchline}`;
+                })
+                .catch(error => console.error('Error fetching joke:', error));
+        }
+    </script>
+
+</body>
+</html>
