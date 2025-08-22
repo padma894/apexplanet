@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Optimized Web App</title>
+
+  <!-- Google Fonts (single HTTP request) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Minified Inline CSS -->
+  <style>
+    body{margin:0;font-family:'Roboto',sans-serif;background:#f9f9f9;color:#333;line-height:1.6}
+    header,footer{background:#222;color:#fff;text-align:center;padding:1rem}
+    h1{margin:0;font-size:2rem}
+    main{padding:1rem}
+    img{max-width:100%;height:auto;display:block;margin:1rem auto;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+    h2{text-align:center;margin-top:1.5rem}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🚀 Optimized Web App</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>Lazy Loading Images</h2>
+      <!-- Images load only when visible -->
+      <img src="images/banner.jpg" alt="Banner" loading="lazy">
+      <img src="images/product1.jpg" alt="Product 1" loading="lazy">
+      <img src="images/product2.jpg" alt="Product 2" loading="lazy">
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Optimized App</p>
+  </footer>
+
+  <!-- Polyfill for old browsers -->
+  <script src="https://cdn.polyfill.io/v3/polyfill.min.js"></script>
+
+  <!-- Minified Inline JS -->
+  <script>
+    // Lazy loading fallback with IntersectionObserver
+    document.addEventListener("DOMContentLoaded",function(){
+      var imgs=document.querySelectorAll("img[loading='lazy']");
+      if("IntersectionObserver"in window){
+        let observer=new IntersectionObserver(function(entries,obs){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              let img=entry.target;
+              img.src=img.getAttribute("src");
+              obs.unobserve(img);
+            }
+          });
+        });
+        imgs.forEach(img=>observer.observe(img));
+      }
+    });
+  </script>
+
+  <!-- ==============================
+       Apache .htaccess CONFIGURATION
+       Copy this section into a file named ".htaccess" on your server
+       ============================== -->
+  <!--
+  # Enable Gzip Compression
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json
+  </IfModule>
+
+  # Leverage Browser Caching
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+  </IfModule>
+  -->
+</body>
+</html>
